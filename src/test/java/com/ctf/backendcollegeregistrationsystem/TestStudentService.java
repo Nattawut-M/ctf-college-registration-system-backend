@@ -1,6 +1,8 @@
 package com.ctf.backendcollegeregistrationsystem;
 
 import com.ctf.backendcollegeregistrationsystem.entity.Student;
+import com.ctf.backendcollegeregistrationsystem.exception.DefaultException;
+import com.ctf.backendcollegeregistrationsystem.exception.StudentException;
 import com.ctf.backendcollegeregistrationsystem.service.StudentService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class TestStudentService {
 
     @Order(2)
     @Test
-    void findStudentByEmail() {
+    void findStudentByEmail() throws DefaultException {
         Student studentByEmail = service.findByEmail("t.nattawut2020@mail.com");
         Assertions.assertEquals("t.nattawut2020@mail.com", studentByEmail.getEmail());
         Assertions.assertEquals(LocalDate.of(1998, 8, 12), studentByEmail.getDateOfBirth());
@@ -43,7 +45,7 @@ public class TestStudentService {
 
     @Order(3)
     @Test
-    void findStudentByFirstName() {
+    void findStudentByFirstName() throws DefaultException {
         Student studentByFirstname = service.findByFirstName("khainui");
         Assertions.assertEquals("khainui", studentByFirstname.getFirstName());
         Assertions.assertEquals(LocalDate.of(1998, 8, 12), studentByFirstname.getDateOfBirth());
@@ -51,7 +53,7 @@ public class TestStudentService {
 
     @Order(4)
     @Test
-    void findStudentByLastName() {
+    void findStudentByLastName() throws DefaultException {
         Student studentByLastname = service.findByLastName("puipui");
         Assertions.assertEquals("puipui", studentByLastname.getLastName());
         Assertions.assertEquals(LocalDate.of(1998, 8, 12), studentByLastname.getDateOfBirth());
@@ -59,7 +61,7 @@ public class TestStudentService {
 
     @Order(5)
     @Test
-    void findById() {
+    void findById() throws DefaultException {
         Student byFirstNameStudent = service.findByFirstName("aim");
         Assertions.assertNotNull(byFirstNameStudent);
 
@@ -76,7 +78,7 @@ public class TestStudentService {
 
     @Order(6)
     @Test
-    void update() {
+    void update() throws DefaultException {
 //        get
         Student studentBefore = service.findByEmail("aim_za@mail.com");
 
@@ -99,7 +101,7 @@ public class TestStudentService {
 
     @Order(7)
     @Test
-    void delete() {
+    void delete() throws DefaultException {
         String firstname = "khainui";
 //        query
         Student student = service.findByFirstName(firstname);

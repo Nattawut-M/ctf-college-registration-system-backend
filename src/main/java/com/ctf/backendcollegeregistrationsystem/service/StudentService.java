@@ -1,6 +1,8 @@
 package com.ctf.backendcollegeregistrationsystem.service;
 
 import com.ctf.backendcollegeregistrationsystem.entity.Student;
+import com.ctf.backendcollegeregistrationsystem.exception.DefaultException;
+import com.ctf.backendcollegeregistrationsystem.exception.StudentException;
 import com.ctf.backendcollegeregistrationsystem.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +25,10 @@ public class StudentService {
         return repository.saveAll(students);
     }
 
-    public Student update(Student studentUpdate) {
+    public Student update(Student studentUpdate) throws DefaultException {
         Optional<Student> optional = repository.findById(studentUpdate.getId());
         if (optional.isEmpty()) {
-//            TODO: throw exception not found by id
-            return null;
+            throw StudentException.notFoundById(studentUpdate.getId());
         }
 
         Student student = optional.get();
@@ -39,50 +40,46 @@ public class StudentService {
         return repository.save(student);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(String id) throws StudentException {
         Optional<Student> optional = repository.findById(id);
         if (optional.isEmpty()) {
-//            TODO: throw exception not found by id
+            throw StudentException.notFoundById(id);
         }
 
         repository.deleteById(id);
     }
 
-    public Student findById(String id) {
+    public Student findById(String id) throws StudentException {
         Optional<Student> optional = repository.findById(id);
         if (optional.isEmpty()) {
-//            TODO; throw exception
-            return null;
+            throw StudentException.notFoundById(id);
         }
 
         return optional.get();
     }
 
-    public Student findByEmail(String email) {
+    public Student findByEmail(String email) throws DefaultException {
         Optional<Student> optional = repository.findByEmail(email);
         if (optional.isEmpty()) {
-//            TODO; throw exception
-//            return null;
+            throw StudentException.notFoundByEmail(email);
         }
 
         return optional.get();
     }
 
-    public Student findByFirstName(String name) {
+    public Student findByFirstName(String name) throws DefaultException {
         Optional<Student> optional = repository.findByFirstName(name);
         if (optional.isEmpty()) {
-//            TODO; throw exception
-            return null;
+            throw StudentException.notFoundByName(name);
         }
 
         return optional.get();
     }
 
-    public Student findByLastName(String name) {
+    public Student findByLastName(String name) throws DefaultException {
         Optional<Student> optional = repository.findByLastName(name);
         if (optional.isEmpty()) {
-//            TODO; throw exception
-            return null;
+            throw StudentException.notFoundByName(name);
         }
 
         return optional.get();
