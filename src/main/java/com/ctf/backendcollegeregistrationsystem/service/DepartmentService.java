@@ -6,6 +6,7 @@ import com.ctf.backendcollegeregistrationsystem.exception.DepartmentException;
 import com.ctf.backendcollegeregistrationsystem.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,14 @@ public class DepartmentService {
         }
 
         return optional.get();
+    }
+
+    public List<Department> findAll() {
+        return repository.findAll();
+    }
+
+    public Department findById(Long id) throws DepartmentException {
+        Optional<Department> optionalDepartment = repository.findById(id);
+        return optionalDepartment.orElseThrow(() -> DepartmentException.notFoundById(id));
     }
 }

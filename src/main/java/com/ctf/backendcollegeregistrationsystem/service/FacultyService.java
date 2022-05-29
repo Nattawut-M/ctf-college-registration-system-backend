@@ -26,7 +26,7 @@ public class FacultyService {
         return repository.save(faculty);
     }
 
-    public List<Faculty> createAll(List<Faculty> faculties) throws FacultyException {
+    public List<Faculty> createAll(List<Faculty> faculties) {
 
         return repository.saveAll(faculties);
 
@@ -50,4 +50,7 @@ public class FacultyService {
         return optionalFaculty.get();
     }
 
+    public List<Faculty> findAll() {
+        return repository.findAll();
+    }
 }

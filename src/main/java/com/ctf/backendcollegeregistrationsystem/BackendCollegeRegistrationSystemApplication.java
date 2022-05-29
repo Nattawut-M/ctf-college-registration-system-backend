@@ -33,9 +33,9 @@ public class BackendCollegeRegistrationSystemApplication implements CommandLineR
 
     @Override
     public void run(String... args) throws Exception {
-        initialFaculties();
-        initialDepartments();
-        initialStudents();
+//        initialFaculties();
+//        initialDepartments();
+//        initialStudents();
     }
 
     private void initialFaculties() throws DefaultException {

@@ -12,13 +12,12 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class ExceptionAdvisorController {
-    @ExceptionHandler(DefaultException.class)
-    public ResponseEntity<ExceptionResponse> response(DefaultException e) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ExceptionResponse> response(Exception e) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ExceptionResponse response = new ExceptionResponse(
                 status.value(),
                 e.getMessage()
-//                e
         );
 
         return ResponseEntity.status(status).body(response);
@@ -30,13 +29,6 @@ public class ExceptionAdvisorController {
         private final LocalDateTime timestamp = LocalDateTime.now();
         private int status;
         private String message;
-        private Object payload;
-
-        public ExceptionResponse(int status, String message, Object payload) {
-            this.status = status;
-            this.message = message;
-            this.payload = payload;
-        }
 
         public ExceptionResponse(int status, String message) {
             this.status = status;

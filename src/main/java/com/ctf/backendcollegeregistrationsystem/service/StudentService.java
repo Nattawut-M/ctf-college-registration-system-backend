@@ -49,6 +49,10 @@ public class StudentService {
         repository.deleteById(id);
     }
 
+    public List<Student> findAll() {
+        return repository.findAll();
+    }
+
     public Student findById(String id) throws StudentException {
         Optional<Student> optional = repository.findById(id);
         if (optional.isEmpty()) {
