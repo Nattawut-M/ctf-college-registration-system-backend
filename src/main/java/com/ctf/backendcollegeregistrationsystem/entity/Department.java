@@ -1,5 +1,8 @@
 package com.ctf.backendcollegeregistrationsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,12 +19,14 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    @JsonBackReference
     @Column
     private List<Student> students;
 
     @ManyToOne
     @JoinColumn(name = "faculty_id", nullable = false)
+    @JsonManagedReference
     private Faculty faculty;
 
     @Column(nullable = false, unique = true)

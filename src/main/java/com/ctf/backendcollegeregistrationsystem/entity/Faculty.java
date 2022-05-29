@@ -1,5 +1,7 @@
 package com.ctf.backendcollegeregistrationsystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,7 @@ public class Faculty {
 
     @OneToMany(mappedBy = "faculty")
     @Column
+    @JsonBackReference
     private List<Department> departments;
 
     @Column(unique = true, nullable = false)
