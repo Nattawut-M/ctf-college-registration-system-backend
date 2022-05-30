@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,10 +37,11 @@ public class Department {
 
     @Column(updatable = false, nullable = false)
     @CreationTimestamp
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Column
-    private LocalDate updatedDate;
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
 
     public Department(String name, Faculty faculty) {
         this.name = name;

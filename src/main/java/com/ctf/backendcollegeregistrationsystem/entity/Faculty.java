@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -32,11 +33,11 @@ public class Faculty {
 
     @Column
     @UpdateTimestamp
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     public Faculty(String name) {
         this.name = name;
