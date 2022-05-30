@@ -33,6 +33,11 @@ public class Response {
         this.message = message;
     }
 
+    public Response(int status, Object payload) {
+        this.status = status;
+        this.payload = payload;
+    }
+
     public Response(int status, String message, Object payload) {
         this.status = status;
         this.message = message;

@@ -59,7 +59,7 @@ public class BackendCollegeRegistrationSystemApplication implements CommandLineR
         techDepts.forEach(name -> {
             Department department = new Department(name, techFaculty);
             try {
-                departmentService.create(department);
+                departmentService.createByObject(department);
             } catch (DefaultException e) {
                 throw new RuntimeException(e);
             }
@@ -69,7 +69,7 @@ public class BackendCollegeRegistrationSystemApplication implements CommandLineR
         liberalArtsDepts.forEach(name -> {
             Department department = new Department(name, liberalArtsFaculty);
             try {
-                departmentService.create(department);
+                departmentService.createByObject(department);
             } catch (DefaultException e) {
                 throw new RuntimeException(e);
             }
@@ -79,7 +79,7 @@ public class BackendCollegeRegistrationSystemApplication implements CommandLineR
         businessAdminDepts.forEach(name -> {
             Department department = new Department(name, BA_Faculty);
             try {
-                departmentService.create(department);
+                departmentService.createByObject(department);
             } catch (DefaultException e) {
                 throw new RuntimeException(e);
             }
