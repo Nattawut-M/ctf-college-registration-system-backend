@@ -66,6 +66,9 @@ public class Student {
         this.department = department;
     }
 
+    public Student(String firstName, String lastName, String email) {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -17,4 +17,7 @@ public class StudentException extends DefaultException {
         return new StudentException(String.format("student %s not found.", name));
     }
 
+    public static StudentException duplicatedEmail(String email) {
+        return new StudentException(email + " is duplicated, please try another");
+    }
 }

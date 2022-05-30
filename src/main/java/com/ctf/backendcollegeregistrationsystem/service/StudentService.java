@@ -1,8 +1,10 @@
 package com.ctf.backendcollegeregistrationsystem.service;
 
+import com.ctf.backendcollegeregistrationsystem.entity.Department;
 import com.ctf.backendcollegeregistrationsystem.entity.Student;
 import com.ctf.backendcollegeregistrationsystem.exception.DefaultException;
 import com.ctf.backendcollegeregistrationsystem.exception.StudentException;
+import com.ctf.backendcollegeregistrationsystem.model.StudentRequest;
 import com.ctf.backendcollegeregistrationsystem.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +14,37 @@ import java.util.Optional;
 @Service
 public class StudentService {
     private final StudentRepository repository;
+    private final DepartmentService departmentService;
 
-    public StudentService(StudentRepository repository) {
+
+    public StudentService(StudentRepository repository, DepartmentService departmentService) {
         this.repository = repository;
+        this.departmentService = departmentService;
     }
 
-    public Student create(Student student) {
+    public Student create(Student student) throws DefaultException {
+        Optional<Student> optionalStudent = repository.findByEmail(student.getEmail());
+        optionalStudent.orElseThrow(() -> StudentException.duplicatedEmail(student.getEmail()));
+        return repository.save(student);
+    }
+
+    public Student createFromRequest(StudentRequest request) throws DefaultException {
+//        check email is duplicated
+        Optional<Student> optionalDuplicatedEmail = repository.findByEmail(request.getEmail());
+        if (optionalDuplicatedEmail.isPresent()) {
+            throw StudentException.duplicatedEmail(request.getEmail());
+        }
+//        find 'department' by departmentId from request
+        Department departmentGetById = departmentService.findById(request.getDepartmentId());
+
+//        create student -> save -> return 'saved student'
+        Student student = new Student();
+        student.setDepartment(departmentGetById);
+        student.setEmail(request.getEmail());
+        student.setFirstName(request.getFirstName());
+        student.setLastName(request.getLastName());
+        student.setDateOfBirth(request.getDateOfBirth());
+
         return repository.save(student);
     }
 
@@ -36,6 +63,30 @@ public class StudentService {
         student.setFirstName(studentUpdate.getFirstName());
         student.setLastName(studentUpdate.getLastName());
         student.setDateOfBirth(studentUpdate.getDateOfBirth());
+
+        return repository.save(student);
+    }
+
+    public Student updateByRequest(String id, StudentRequest request) throws DefaultException {
+//        find student for update by id
+        Optional<Student> optionalStudent = repository.findById(id);
+//        if not found = throw exception
+        Student student = optionalStudent.orElseThrow(() -> StudentException.notFoundById(id));
+
+//        check new email is duplicate
+        Optional<Student> optionalEmailDuplicated = repository.findByEmail(request.getEmail());
+        if (optionalEmailDuplicated.isPresent()) {
+            throw StudentException.duplicatedEmail(request.getEmail());
+        }
+
+//        find department by departmentId from request
+        Department department = departmentService.findById(request.getDepartmentId());
+
+//        update
+        student.setEmail(request.getEmail());
+        student.setFirstName(request.getFirstName());
+        student.setLastName(request.getLastName());
+        student.setDepartment(department);
 
         return repository.save(student);
     }
