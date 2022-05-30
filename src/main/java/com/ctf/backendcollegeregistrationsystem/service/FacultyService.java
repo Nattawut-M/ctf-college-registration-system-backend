@@ -53,4 +53,30 @@ public class FacultyService {
     public List<Faculty> findAll() {
         return repository.findAll();
     }
+
+    public Faculty updateById(Long id, String updateName) throws FacultyException {
+        Optional<Faculty> optFindById = repository.findById(id);
+        if (optFindById.isEmpty()) {
+            throw FacultyException.notFoundById(id);
+        }
+
+        Optional<Faculty> optDuplicatedName = repository.findByName(updateName);
+        if (optDuplicatedName.isPresent() && !optDuplicatedName.get().getId().equals(id)) {
+            throw FacultyException.duplicatedName(updateName);
+        }
+
+        Faculty faculty = optFindById.get();
+        faculty.setName(updateName);
+
+        return repository.save(faculty);
+    }
+
+    public void deleteById(Long id) throws DefaultException {
+        Optional<Faculty> optionalFaculty = repository.findById(id);
+        if (optionalFaculty.isEmpty()) {
+            throw FacultyException.notFoundById(id);
+        }
+
+        repository.delete(optionalFaculty.get());
+    }
 }
